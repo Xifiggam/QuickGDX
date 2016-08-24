@@ -18,8 +18,8 @@ public class QuickGdx extends ApplicationAdapter {
 
 	// gives the original size for all screen working with the scaling orthographic camera
 	// set in DesktopLauncher to any resolution and it will be scaled automatically.
-	public static final int GAME_WIDTH = 1080;
-	public static final int GAME_HEIGHT = 720;
+	public static final int GAME_WIDTH = 1366;
+	public static final int GAME_HEIGHT = 768;
 
 
 	@Override
@@ -46,6 +46,12 @@ public class QuickGdx extends ApplicationAdapter {
 		assMan.load("sfx/laser.wav", Sound.class);
 		assMan.load("sfx/pickup.wav", Sound.class);
 		assMan.load("sfx/powerup.wav", Sound.class);
+
+		//HUD
+		assMan.load("hud/life_small.png", Texture.class);
+
+        //Fonts
+        assMan.load("fonts/RabbidHighwaySignII.fnt", BitmapFont.class);
 
 		//Entities
 		assMan.load("gameplay/spritesheet.png", Texture.class);

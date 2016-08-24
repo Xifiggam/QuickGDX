@@ -1,6 +1,6 @@
-package eu.quickgdx.game.Mechanics.States;
+package eu.quickgdx.game.mechanics.states;
 
-import eu.quickgdx.game.Mechanics.Entities.GameObject;
+import eu.quickgdx.game.mechanics.entities.GameObject;
 
 /**
  * Created by Veit on 08.02.2016.

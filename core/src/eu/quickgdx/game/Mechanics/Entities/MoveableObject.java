@@ -1,8 +1,8 @@
-package eu.quickgdx.game.Mechanics.Entities;
+package eu.quickgdx.game.mechanics.entities;
 
 import com.badlogic.gdx.math.Vector2;
 
-import eu.quickgdx.game.Mechanics.World;
+import eu.quickgdx.game.mechanics.World;
 
 /**
  * Created by Veit on 07.02.2016.

@@ -9,15 +9,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import eu.quickgdx.game.Mechanics.World;
+import eu.quickgdx.game.mechanics.World;
 import eu.quickgdx.game.QuickGdx;
 
 /**
  * Created by Mathias Lux, mathias@juggle.at,  on 04.02.2016.
  */
 public class GameplayScreen extends ScreenAdapter {
-    private final SpriteBatch batch;
-    public final OrthographicCamera cam;
+    private final SpriteBatch gameBatch;
+    private final SpriteBatch hudBatch;
+    public final OrthographicCamera gameCam;
+    public final OrthographicCamera hudCam;
     public QuickGdx parentGame;
 
     Texture backgroundImage;
@@ -31,44 +33,32 @@ public class GameplayScreen extends ScreenAdapter {
 
     public GameplayScreen(QuickGdx game) {
         this.parentGame = game;
-        this.world = new World(this);
-
         backgroundImage = parentGame.getAssetManager().get("menu/menu_background.jpg");
         menuFont = parentGame.getAssetManager().get("menu/Ravie_72.fnt");
         menuFont.getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        // Create camera that projects the game onto the actual screen size.
-        cam = new OrthographicCamera(QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
-
-        cam.position.set(cam.viewportWidth / 2f, cam.viewportHeight / 2f, 0);
-        cam.update();
-
-        batch = new SpriteBatch();
+        gameCam = new OrthographicCamera(QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
+        gameCam.position.set(gameCam.viewportWidth / 2f, gameCam.viewportHeight / 2f, 0);
+        gameCam.update();
+        hudCam = new OrthographicCamera(QuickGdx.GAME_WIDTH, QuickGdx.GAME_HEIGHT);
+        hudCam.position.set(hudCam.viewportWidth / 2f, hudCam.viewportHeight / 2f, 0);
+        hudCam.update();
+        gameBatch = new SpriteBatch();
+        hudBatch = new SpriteBatch();
+        this.world = new World(this);
     }
 
     @Override
     public void render(float delta) {
         handleInput();
-        // camera:
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
-
-
+        gameBatch.setProjectionMatrix(gameCam.combined);
+        hudBatch.setProjectionMatrix(hudCam.combined);
         Gdx.gl.glClearColor(0.3f, 0.3f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
         world.update(delta);
-        world.render(delta);
-
-//        batch.begin();
-//        // draw bgImage ...
-//        batch.draw(backgroundImage, 0, 0, GdxGame.GAME_WIDTH, GdxGame.GAME_HEIGHT);
-//        // draw Strings ...
-//        for (int i = 0; i < menuStrings.length; i++) {
-//            if (i == currentMenuItem) menuFont.setColor(0.2f, 1f, 0.2f, 1f);
-//            else menuFont.setColor(0.2f, 0.2f, 1f, 1f);
-//            menuFont.draw(batch, menuStrings[i], offsetLeft, GdxGame.GAME_HEIGHT - offsetTop - i * offsetY);
-//        }
-//        batch.end();
+        world.render(delta, gameBatch);
+        world.renderHUD(delta, hudBatch);
+        gameCam.update();
+        hudCam.update();
     }
 
     private void handleInput() {
