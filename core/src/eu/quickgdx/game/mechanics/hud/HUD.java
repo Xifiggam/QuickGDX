@@ -37,7 +37,7 @@ public class HUD {
         for(int i = 0; i<object.getHitpoints(); i++){
             hudBatch.draw(tex,(62+10*i+tex.getWidth()*i), QuickGdx.GAME_HEIGHT-tex.getHeight()-68);
         }
-        layout.setText(textFont, "This could be your HUD text!");
+        layout.setText(textFont, "Position: " + object.getPosition().x + " | " + object.getPosition().y);
         textFont.draw(hudBatch, layout, QuickGdx.GAME_WIDTH / 2 - layout.width / 2, QuickGdx.GAME_HEIGHT-layout.height-650);
     }
 }
