@@ -27,10 +27,10 @@ public abstract class State {
         this.stackable = stackable;
     }
 
-    public void update(float delta){
+    public void update(float delta) {
         this.stateTime += delta;
-        if(this.hasMaxStateTime){
-            if(this.maxStateTime<this.stateTime){
+        if (this.hasMaxStateTime) {
+            if (this.maxStateTime < this.stateTime) {
                 this.remove();
             }
         }
@@ -40,7 +40,7 @@ public abstract class State {
         parentObject.removeState(this);
     }
 
-    public void render(){
+    public void render() {
 
     }
 }

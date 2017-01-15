@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import eu.quickgdx.game.mechanics.World;
 
 /**
+ * Adds some basic mechanism to the GameObject (@see {@link GameObject}) class.
  * Created by Veit on 07.02.2016.
  */
 public abstract class MoveableObject extends GameObject {
