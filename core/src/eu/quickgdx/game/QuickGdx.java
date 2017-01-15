@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * Main entry point in our game. Asset loading should be done here.
+ * provides you with the basic manager classes (assets, screen, sound) and the animator helper class
+ */
 public class QuickGdx extends ApplicationAdapter {
     private SpriteBatch batch;
     private AssetManager assMan;

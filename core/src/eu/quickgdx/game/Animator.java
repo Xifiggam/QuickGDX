@@ -5,6 +5,9 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
+ * Animation helper class. is doing some basic animation either with single files
+ * (e.g. move1.png, move2.png, move3.png ..) or with a spritesheet
+ *
  * Created by Veit on 08.02.2016.
  */
 public class Animator {
