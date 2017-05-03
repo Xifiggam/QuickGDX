@@ -13,9 +13,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import eu.quickgdx.game.mechanics.entities.CollisionObject;
 import eu.quickgdx.game.mechanics.entities.ControlledObject;
+import eu.quickgdx.game.mechanics.entities.Entity;
 import eu.quickgdx.game.mechanics.entities.GameObject;
+import eu.quickgdx.game.mechanics.entities.components.EntityComponent;
+import eu.quickgdx.game.mechanics.entities.components.PositionComponent;
+import eu.quickgdx.game.mechanics.entities.components.TextureComponent;
 import eu.quickgdx.game.mechanics.hud.HUD;
 import eu.quickgdx.game.screens.GameplayScreen;
 
@@ -39,12 +49,29 @@ public class World {
     int mapHeight;
     int tileHeight;
 
+    /**
+     * Component system based fields
+     */
+    public HashMap<Class, Array<Entity>> componentEntityHashMap = new HashMap<Class, Array<Entity>>();
+
+
+
     public World(GameplayScreen gameplayScreen) {
         gameObjects = new Array<GameObject>();
         this.gameplayScreen = gameplayScreen;
         loadTiledMap();
         //Add HUD
         this.hud = new HUD(controlledObject, this);
+
+
+        //Test Entities:
+        Entity entity1 = new Entity(this);
+        entity1.addComponent(new PositionComponent(new Vector2(100, 100)));
+        entity1.addComponent(new TextureComponent((Texture)gameplayScreen.parentGame.getAssetManager().get("hud/life_small.png")));
+
+        Entity entity2 = new Entity(this);
+        entity2.addComponent(new PositionComponent(new Vector2(200,200)));
+        entity2.addComponent(new TextureComponent((Texture)gameplayScreen.parentGame.getAssetManager().get("hud/life_small.png")));
 
 
     }
@@ -61,6 +88,9 @@ public class World {
         spriteBatch.begin();
         for (GameObject go : gameObjects) {
             go.render(delta, spriteBatch);
+        }
+        for (Entity entity : getAllEntitiesWithComponents(new Array<Class>(){{add(PositionComponent.class); add(TextureComponent.class);}})){
+            entity.render(delta, spriteBatch);
         }
         spriteBatch.end();
 
@@ -124,5 +154,22 @@ public class World {
                 gameObjects.add(controlledObject);
             }
         }
+    }
+
+    public Array<Entity> getAllEntitiesWithComponents(Array<Class> components){
+        Array<Array<Entity>> lists = new Array<Array<Entity>>();
+        Array<Entity> returnList = new Array<Entity>();
+        for (Class component : components) {
+            lists.add(componentEntityHashMap.get(component));
+        }
+        if(lists.size>0)
+            returnList = lists.get(0);
+        for (Array<Entity> arr: lists) {
+            for (Entity entity : returnList) {
+                if(!arr.contains(entity, false))
+                    returnList.removeValue(entity, false);
+            }
+        }
+        return returnList;
     }
 }
